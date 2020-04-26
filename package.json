@@ -1,0 +1,17 @@
+{
+  "name": "chart-js-test",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "ejs": "^3.1.2",
+    "express": "^4.17.1",
+    "g-sheets-api": "^1.0.3",
+    "node-fetch": "^2.6.0"
+  }
+}

@@ -1,0 +1,10 @@
+.main-container .content-area {
+    padding-left: 0.5rem !important;
+    padding-right: 0.5rem !important;
+    padding-top: 0rem !important;
+    padding-bottom: 0rem !important;
+}
+
+span.title span {
+    color: #ff5722;
+}

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>𒀁 Hobbit Tracker 𒀁</title>
+	<link rel="icon" href="images/combo-chart-icon.png">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/clarity-icons/0.10.28/clarity-icons.min.css" />
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/clarity-icons/0.10.28/clarity-icons.min.js"></script>
+	<link rel="stylesheet" href="https://unpkg.com/@clr/ui/clr-ui-dark.min.css" />
+	<link rel="stylesheet" href="https://unpkg.com/@clr/ui@2.0.0/clr-ui-dark.min.css" />
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.bundle.min.js"></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.css"/>
+	<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@0.7.0"></script>
+</head>
+<body>
+	<div class="main-container">
+		<div class="alert alert-app-level"></div>
+		<header class="header header-6">
+			<div class="branding">
+				<a href="/" class="nav-link">
+					<span class="title">𒊯 <span>Hobbit</span> 𒊯</span>
+				</a>
+			</div>
+		</header>
+		<div class="content-container">
+			<div class="content-area">
+				<section id="gridPanel" role="tabpanel" aria-labelledby="grid">
+					<div class="clr-row">
+						<div class="clr-col-12" id="datagridCard">
+							<div class="card">
+								<div class="card-block">
+									<div class="card-title">
+										⥈ Hobbit Datagrid ⥈
+									</div>
+									<div class="card-text">
+										<div id="mygrid"></div>
+										<div id="legendgrid"></div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</section>
+				<section id="lineChartPanel" role="tabpanel" aria-labelledby="linechart" aria-hidden="true">
+					<div class="clr-row">
+						<div class="clr-col-12">
+							<div class="card">
+								<div class="card-block">
+									<div class="card-title">
+										⏀ Hobbit Data Line Chart ⏀
+									</div>
+									<div class="card-text">
+										<canvas id="linechartCanvas"></canvas>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</section>
+				<section id="barChartPanel" role="tabpanel" aria-labelledby="barchart" aria-hidden="true">
+					<div class="clr-row">
+						<div class="clr-col-12">
+							<div class="card">
+								<div class="card-block">
+									<div class="card-title">
+										⥉ Hobbit Data Bar Chart ⥉
+									</div>
+									<div class="card-text">
+										<canvas id="barchartCanvas"></canvas>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</section>
+			</div>
+			<nav class="sidenav">
+				<div class="tabs-vertical">
+					<ul class="nav" role="tablist" id="tabs">
+						<li role="presentation" class="nav-item">
+							<button id="grid" class="btn btn-link nav-link active"
+								aria-controls="gridPanel" aria-selected="true"
+								type="button" onclick="switchTab('grid')">
+								<clr-icon shape="grid-view"></clr-icon> Grid</button>
+						</li>
+						<li role="presentation" class="nav-item">
+							<button id="barchart" class="btn btn-link nav-link"
+								aria-controls="barChartPanel" aria-selected="false"
+								type="button" onclick="switchTab('barchart')">
+								<clr-icon shape="line-chart"></clr-icon> Bar Chart</button>
+						</li>
+						<li role="presentation" class="nav-item">
+							<button id="linechart" class="btn btn-link nav-link"
+								aria-controls="lineChartPanel" aria-selected="false"
+								type="button" onclick="switchTab('linechart')">
+								<clr-icon shape="bar-chart"></clr-icon> Line Chart</button>
+						</li>
+					</ul>
+				</div>
+			</nav>
+		</div>
+	</div>
+</body>
+<script type="text/javascript" src="js/index.js"></script>
+<link rel="stylesheet" href="css/style.css">
+</html>

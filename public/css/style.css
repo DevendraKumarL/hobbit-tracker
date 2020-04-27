@@ -8,3 +8,7 @@
 span.title span {
     color: #ff5722;
 }
+
+#toggle-container {
+	display: inline;
+}

@@ -63,9 +63,19 @@
 								<div class="card-block">
 									<div class="card-title">
 										⥉ Hobbit Data Bar Chart ⥉
+										&nbsp;&nbsp;&nbsp;
+										<div class="clr-form-control" id="toggle-container">
+										  <div class="clr-control-container">
+										    <div class="clr-toggle-wrapper">
+										      <input type="checkbox" id="toggle1" name="toggle-basic" value="option1" class="clr-toggle" onchange="toggleSwitchBarChart()">
+										      <label for="toggle1">Detailed</label>
+										    </div>
+										  </div>
+										</div>
 									</div>
 									<div class="card-text">
 										<canvas id="barchartCanvas"></canvas>
+										<canvas id="barchart2Canvas"></canvas>
 									</div>
 								</div>
 							</div>

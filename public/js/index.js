@@ -1,5 +1,12 @@
 const datagridCard = document.querySelector('#datagridCard');
 datagridCard.style.display = 'none';
+
+const barchartCanvas = document.querySelector('#barchartCanvas');
+const barchart2Canvas = document.querySelector('#barchart2Canvas');
+barchart2Canvas.style.display = 'none';
+
+const toggle = document.querySelector('#toggle1');
+
 const colors = [
     '#0779e4', '#cff800', '#d8345f',
     '#cca8e9', '#b0a160', '#40bfc1',
@@ -16,7 +23,7 @@ function drawLineChart(data = {}) {
             data: hobitData.points,
             borderColor: colors[index],
             backgroundColor: Array(hobitData.points.length).fill('rgba(0, 0, 0, 0)'),
-            borderWidth: 1.5,
+            borderWidth: 2,
             lineTension: 0
         })
     });
@@ -65,6 +72,65 @@ function drawLineChart(data = {}) {
     });
 }
 
+function drawBarChart2(data = {}) {
+    const ctx = document.getElementById('barchart2Canvas').getContext('2d');
+    const datasets = [];
+    data.hobits.forEach((hobitData, index) => {
+        datasets.push({
+            label: hobitData.hobit + '(' + hobitData.performanceScore + ')',
+            data: hobitData.points,
+            borderColor: Array(hobitData.points.length).fill(colors[index]),
+            backgroundColor: Array(hobitData.points.length).fill('rgba(0, 0, 0, 0)'),
+            borderWidth: 2,
+            minBarLength: 20
+        })
+    });
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: data.days,
+            datasets: datasets
+        },
+        options: {
+            legend: {
+                display: true,
+                position: 'bottom',
+                labels: {
+                    usePointStyle: true,
+                    fontColor: '#ffffff'
+                }
+            },
+            tooltips: {
+                callbacks: {
+                    label: (tooltipItem, barData) => {
+                        const dataset = barData.datasets[tooltipItem.datasetIndex];
+                        let label = dataset.label || '';
+                        if (label) {
+                            let performancePoint = dataset.data[tooltipItem.index], symbol = '=';
+                            if (performancePoint < 0) symbol = '↓';
+                            else if (performancePoint > 0) symbol = '↑';
+                            label += ': ' + symbol + performancePoint;
+                        }
+                        return label;
+                    }
+                }
+            },
+            plugins: {
+                datalabels: {
+                    display: false
+                }
+            },
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        stepSize: 1
+                    }
+                }]
+            }
+        }
+    });
+}
+
 function drawBarChart(data = {}) {
     const ctx = document.getElementById('barchartCanvas').getContext('2d');
     new Chart(ctx, {
@@ -75,7 +141,7 @@ function drawBarChart(data = {}) {
                 label: 'Hobit Performance',
                 data: data.map(stat => stat.performanceScore),
                 borderColor: colors,
-                borderWidth: 1.5
+                borderWidth: 2
             }]
         },
         options: {
@@ -235,7 +301,18 @@ fetch('http://localhost:4000/gsheets').then(response => {
     proccesGrid(data);
     const chartData = processLineChart(data);
     processBarChart(chartData);
+    drawBarChart2(chartData);
 });
+
+function toggleSwitchBarChart() {
+    if (toggle.checked === true) {
+        barchart2Canvas.style.display = 'block';
+        barchartCanvas.style.display = 'none';
+    } else {
+        barchartCanvas.style.display = 'block';
+        barchart2Canvas.style.display = 'none';
+    }
+}
 
 function getScoreValue(figure) {
     switch(figure) {

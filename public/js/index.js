@@ -1,17 +1,23 @@
 const datagridCard = document.querySelector('#datagridCard');
 datagridCard.style.display = 'none';
-const colors = ['#0779e4', '#cff800', '#d8345f', '#fa744f', '#5b8c85', '#95389e', '#b0a160'];
+const colors = [
+    '#0779e4', '#cff800', '#d8345f',
+    '#cca8e9', '#b0a160', '#40bfc1',
+    '#fa744f', '#5b8c85', '#95389e',
+    '#216353', '#f69d9d', '#f1c40f'
+];
 
 function drawLineChart(data = {}) {
     const ctx = document.getElementById('linechartCanvas').getContext('2d');
     const datasets = [];
     data.hobits.forEach((hobitData, index) => {
         datasets.push({
-            label: hobitData.hobit + '(' + hobitData.changeScore + ')',
+            label: hobitData.hobit + '(' + hobitData.performanceScore + ')',
             data: hobitData.points,
             borderColor: colors[index],
             backgroundColor: Array(hobitData.points.length).fill('rgba(0, 0, 0, 0)'),
-            borderWidth: 1.5, lineTension: 0
+            borderWidth: 1.5,
+            lineTension: 0
         })
     });
     new Chart(ctx, {
@@ -41,10 +47,10 @@ function drawLineChart(data = {}) {
                         const dataset = barData.datasets[tooltipItem.datasetIndex];
                         let label = dataset.label || '';
                         if (label) {
-                            let change = dataset.data[tooltipItem.index], symbol = '=';
-                            if (change < 0) symbol = '↓';
-                            else if (change > 0) symbol = '↑';
-                            label += ': ' + symbol + change;
+                            let performancePoint = dataset.data[tooltipItem.index], symbol = '=';
+                            if (performancePoint < 0) symbol = '↓';
+                            else if (performancePoint > 0) symbol = '↑';
+                            label += ': ' + symbol + performancePoint;
                         }
                         return label;
                     }
@@ -64,11 +70,12 @@ function drawBarChart(data = {}) {
     new Chart(ctx, {
         type: 'bar',
         data: {
-            labels: data.map(stat => stat.label + '(' + stat.changeScore + ')'),
+            labels: data.map(stat => stat.label + '(' + stat.performanceScore + ')'),
             datasets: [{
                 label: 'Hobit Performance',
                 data: data.map(stat => stat.performanceScore),
-                borderColor: colors, borderWidth: 1.5
+                borderColor: colors,
+                borderWidth: 1.5
             }]
         },
         options: {
@@ -108,22 +115,17 @@ function drawBarChart(data = {}) {
 function processBarChart(data) {
     const barData = [];
     data.hobits.forEach(hobitData => {
-        let performanceScore = 0, changeScore = 0;
+        let performanceScore = 0;
         hobitData.points.forEach(point => {
             if (!isNaN(point)) {
-                if (point > 0) {
-                    performanceScore += 1;
-                    changeScore+= 1;
-                } else if (point <= 0) {
-                    performanceScore -= 1;
-                    changeScore-= 1;
-                };
+                if (point > 0) performanceScore += 1;
+                else if (point <= 0) performanceScore -= 1;
             }
         });
         barData.push({
             label: hobitData.hobit,
             performanceScore: performanceScore,
-            changeScore: (changeScore > 0 ? '↑' : changeScore < 0 ? '↓' : '=') + changeScore
+            changeScore: (performanceScore > 0 ? '↑' : performanceScore < 0 ? '↓' : '=') + performanceScore
         });
     });
 
@@ -137,7 +139,7 @@ function processLineChart(data) {
         days: Object.getOwnPropertyNames(data[0]).slice(1), hobits: [],
     };
     data.forEach(hobitScorings  => {
-        let scorePoints = [], changeScore = 0;
+        let scorePoints = [], performanceScore = 0;
         Object.values(hobitScorings).forEach((result, index) => {
             if (index != 0) {
                 let figuredScore = getScoreValue(result);
@@ -146,17 +148,18 @@ function processLineChart(data) {
                 } else {
                     if (figuredScore == 0) scorePoints.push(NaN);
                     else if (figuredScore == 1 && scorePoints[index-2] < 0) scorePoints.push(1);
+                    else if (figuredScore == -1 && scorePoints[index-2] > 0) scorePoints.push(0);
                     else scorePoints.push(scorePoints[index-2] + figuredScore);
                 }
                 if (!isNaN(scorePoints[index-1])) {
-                    if (scorePoints[index-1] > 0) changeScore+= 1; else if (scorePoints[index-1] <= 0) changeScore-= 1;
+                    if (scorePoints[index-1] > 0) performanceScore+= 1; else if (scorePoints[index-1] <= 0) performanceScore-= 1;
                 }
             }
         });
         lineData.hobits.push({
             hobit: hobitScorings.hobit,
             points: scorePoints,
-            changeScore: (changeScore > 0 ? '↑' : changeScore < 0 ? '↓' : '=') + changeScore
+            performanceScore: (performanceScore > 0 ? '↑' : performanceScore < 0 ? '↓' : '=') + performanceScore
         });
     });
 
@@ -201,11 +204,11 @@ function proccesGrid(data) {
 
     data.forEach((rowData, index2)  => {
         const row = tbody.insertRow();
-        let changeSum = 0, hobit = '';
+        let performanceScore = 0, hobit = '';
         Object.values(rowData).forEach((rowCell, index) => {
             if (index != 0) {
                 let point = getScoreValue(rowCell);
-                if (point > 0) changeSum+= 1; else if (point < 0) changeSum-= 1;
+                if (point > 0) performanceScore+= 1; else if (point < 0) performanceScore-= 1;
                 row.insertCell().innerHTML = rowCell;
             } else if (index == 0) {
                 hobit = rowCell;
@@ -214,7 +217,7 @@ function proccesGrid(data) {
                 cell.style.color = colors[index2];
             }
         });
-        gridLegends.push(hobit + ' (' + (changeSum > 0 ? '↑' : changeSum < 0 ? '↓' : '=') + changeSum + ')');
+        gridLegends.push(hobit + ' (' + (performanceScore > 0 ? '↑' : performanceScore < 0 ? '↓' : '=') + performanceScore + ')');
     });
 
     const mygrid = document.querySelector('#mygrid');

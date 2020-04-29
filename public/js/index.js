@@ -210,11 +210,13 @@ function processLineChart(data) {
             if (index != 0) {
                 let figuredScore = getScoreValue(result);
                 if (scorePoints.length == 0) {
-                    scorePoints.push(figuredScore == -1 ? 0 : figuredScore)
+                    scorePoints.push(figuredScore == -1 ? 0 : figuredScore == 0 ? NaN : figuredScore);
                 } else {
                     if (figuredScore == 0) scorePoints.push(NaN);
                     else if (figuredScore == 1 && scorePoints[index-2] < 0) scorePoints.push(1);
                     else if (figuredScore == -1 && scorePoints[index-2] > 0) scorePoints.push(0);
+                    else if (figuredScore == 1 && isNaN(scorePoints[index-2])) scorePoints.push(1);
+                    else if (figuredScore == -1 && isNaN(scorePoints[index-2])) scorePoints.push(-1);
                     else scorePoints.push(scorePoints[index-2] + figuredScore);
                 }
                 if (!isNaN(scorePoints[index-1])) {

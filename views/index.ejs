@@ -40,6 +40,31 @@
 						</div>
 					</div>
 				</section>
+				<section id="barChartPanel" role="tabpanel" aria-labelledby="barchart" aria-hidden="true">
+					<div class="clr-row">
+						<div class="clr-col-12">
+							<div class="card">
+								<div class="card-block">
+									<div class="card-title">
+										⥉ Hobbit Data Bar Chart ⥉ &nbsp;&nbsp;&nbsp;
+										<div class="clr-form-control" id="toggle-container">
+											<div class="clr-control-container">
+											<div class="clr-toggle-wrapper">
+												<input type="checkbox" id="toggle1" name="toggle-basic" value="option1" class="clr-toggle" onchange="toggleSwitchBarChart()">
+												<label for="toggle1">Detailed</label>
+											</div>
+											</div>
+										</div>
+									</div>
+									<div class="card-text">
+										<canvas id="barchartCanvas"></canvas>
+										<canvas id="barchart2Canvas"></canvas>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</section>
 				<section id="lineChartPanel" role="tabpanel" aria-labelledby="linechart" aria-hidden="true">
 					<div class="clr-row">
 						<div class="clr-col-12">
@@ -56,31 +81,7 @@
 						</div>
 					</div>
 				</section>
-				<section id="barChartPanel" role="tabpanel" aria-labelledby="barchart" aria-hidden="true">
-					<div class="clr-row">
-						<div class="clr-col-12">
-							<div class="card">
-								<div class="card-block">
-									<div class="card-title">
-										⥉ Hobbit Data Bar Chart ⥉
-										&nbsp;&nbsp;&nbsp;
-										<div class="clr-form-control" id="toggle-container">
-										  <div class="clr-control-container">
-										    <div class="clr-toggle-wrapper">
-										      <input type="checkbox" id="toggle1" name="toggle-basic" value="option1" class="clr-toggle" onchange="toggleSwitchBarChart()">
-										      <label for="toggle1">Detailed</label>
-										    </div>
-										  </div>
-										</div>
-									</div>
-									<div class="card-text">
-										<canvas id="barchartCanvas"></canvas>
-										<canvas id="barchart2Canvas"></canvas>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
+				<section id="indieChartsPanel" role="tabpanel" aria-labelledby="barchart" aria-hidden="true">
 				</section>
 			</div>
 			<nav class="sidenav">
@@ -96,13 +97,19 @@
 							<button id="barchart" class="btn btn-link nav-link"
 								aria-controls="barChartPanel" aria-selected="false"
 								type="button" onclick="switchTab('barchart')">
-								<clr-icon shape="line-chart"></clr-icon> Bar Chart</button>
+								<clr-icon shape="bar-chart"></clr-icon> Bar Chart</button>
 						</li>
 						<li role="presentation" class="nav-item">
 							<button id="linechart" class="btn btn-link nav-link"
 								aria-controls="lineChartPanel" aria-selected="false"
 								type="button" onclick="switchTab('linechart')">
-								<clr-icon shape="bar-chart"></clr-icon> Line Chart</button>
+								<clr-icon shape="line-chart"></clr-icon> Line Chart</button>
+						</li>
+						<li role="presentation" class="nav-item">
+							<button id="indiecharts" class="btn btn-link nav-link"
+								aria-controls="indieChartsPanel" aria-selected="false"
+								type="button" onclick="switchTab('indiecharts')">
+								<clr-icon shape="view-columns"></clr-icon> Indie Charts</button>
 						</li>
 					</ul>
 				</div>
@@ -110,6 +117,16 @@
 		</div>
 	</div>
 </body>
+<div class="clr-col-6" id="ichartTemplateCard">
+	<div class="card">
+		<div class="card-block">
+			<div class="card-title" id="ichartTitle">
+			</div>
+			<div class="card-text" id="ichartContainer">
+			</div>
+		</div>
+	</div>
+</div>
 <script type="text/javascript" src="js/index.js"></script>
 <link rel="stylesheet" href="css/style.css">
 </html>

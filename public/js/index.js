@@ -300,11 +300,88 @@ function proccesGrid(data) {
 fetch('http://localhost:4000/gsheets').then(response => {
     return response.json();
 }).then(data => {
+    buildCharts(data);
+});
+
+function buildCharts(data) {
     proccesGrid(data);
     const chartData = processLineChart(data);
     processBarChart(chartData);
     drawBarChart2(chartData);
-});
+    drawIndieCharts(chartData);
+}
+
+function drawIndieCharts(data) {
+
+    const ichartPanel = document.querySelector('#indieChartsPanel');
+
+    data.hobits.forEach((hobitData, index) => {
+        const ichartCard = document.querySelector('#ichartTemplateCard').cloneNode(true);
+        ichartCard.removeAttribute('id');
+
+        const ichartTitle = ichartCard.querySelector('#ichartTitle');
+        ichartTitle.removeAttribute('id');
+        ichartTitle.innerHTML = data.hobits[index].hobit;
+
+        const canvasEle = document.createElement('canvas');
+        canvasEle.setAttribute('id', ('ichart' + index));
+        canvasEle.setAttribute('height', 80);
+
+        const ichartContainer = ichartCard.querySelector('#ichartContainer');
+        ichartContainer.removeAttribute('id');
+
+        ichartContainer.appendChild(canvasEle);
+        ichartPanel.appendChild(ichartCard);
+
+        const ictx = canvasEle.getContext('2d');
+        new Chart(ictx, {
+            type: 'line',
+            data: {
+                labels: data.days,
+                datasets: [{
+                    label: data.hobits[index].hobit + '(' + data.hobits[index].performanceScore + ')',
+                    data: data.hobits[index].points,
+                    borderColor: colors[index],
+                    backgroundColor: Array(data.hobits[index].points.length).fill('rgba(0, 0, 0, 0)'),
+                    borderWidth: 2,
+                    lineTension: 0
+                }]
+            },
+            options: {
+                legend: {
+                    display: true,
+                    position: 'bottom',
+                    labels: {
+                        usePointStyle: true,
+                        padding: 20,
+                        fontColor: '#ffffff'
+                    }
+                },
+                tooltips: {
+                    callbacks: {
+                        label: (tooltipItem, barData) => {
+                            const dataset = barData.datasets[tooltipItem.datasetIndex];
+                            let label = dataset.label || '';
+                            if (label) {
+                                let performancePoint = dataset.data[tooltipItem.index], symbol = '=';
+                                if (performancePoint < 0) symbol = '↓';
+                                else if (performancePoint > 0) symbol = '↑';
+                                label += ': ' + symbol + performancePoint;
+                            }
+                            return label;
+                        }
+                    }
+                },
+                plugins: {
+                    datalabels: {
+                        display: false
+                    }
+                }
+            }
+        });
+    });
+
+}
 
 function toggleSwitchBarChart() {
     if (toggle.checked === true) {
@@ -334,6 +411,8 @@ function hideTabs() {
     document.querySelector('#linechart').setAttribute('class', 'btn btn-link nav-link');
     document.querySelector('#barChartPanel').setAttribute('aria-hidden', 'true');
     document.querySelector('#barchart').setAttribute('class', 'btn btn-link nav-link');
+    document.querySelector('#indieChartsPanel').setAttribute('aria-hidden', 'true');
+    document.querySelector('#indiecharts').setAttribute('class', 'btn btn-link nav-link');
 }
 
 function switchTab(tab) {
@@ -355,6 +434,12 @@ function switchTab(tab) {
             document.querySelector('#barChartPanel')
                 .removeAttribute('aria-hidden');
             document.querySelector('#barchart')
+                .setAttribute('class', 'btn btn-link nav-link active');
+            break;
+        case 'indiecharts':
+            document.querySelector('#indieChartsPanel')
+                .removeAttribute('aria-hidden');
+            document.querySelector('#indiecharts')
                 .setAttribute('class', 'btn btn-link nav-link active');
             break;
     }

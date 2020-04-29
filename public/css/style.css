@@ -12,3 +12,11 @@ span.title span {
 #toggle-container {
 	display: inline;
 }
+
+#ichartTemplateCard {
+    display: none;
+}
+
+.clr-col-6 {
+    display: inline-flex;
+}

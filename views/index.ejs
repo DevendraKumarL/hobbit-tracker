@@ -14,8 +14,7 @@
 	<link rel="stylesheet" type="text/css" href="clrui/clr-ui-dark.min.css">
 
 	<!-- load chart.js lib -->
-	<link rel="stylesheet" type="text/css" href="chartjs/Chart.min.css">
-	<script src="chartjs/Chart.min.js"></script>
+	<script src="chartjs/Chart.js"></script>
 
 	<!-- load chart.js plugin datalabels plugin -->
 	<script src="chartjsplugin/chartjs-plugin-datalabels.min.js"></script>
@@ -57,7 +56,7 @@
 									<div class="clr-form-control" id="toggle-container">
 										<div class="clr-control-container">
 										<div class="clr-toggle-wrapper">
-											<input type="checkbox" id="toggle1" name="toggle-basic" value="option1" class="clr-toggle" onchange="toggleSwitchBarChart()">
+											<input type="checkbox" id="toggle1" name="toggle-basic" value="option1" class="clr-toggle" onchange="appIns.toggleSwitchBarChart()">
 											<label for="toggle1">Detailed</label>
 										</div>
 										</div>
@@ -94,25 +93,25 @@
 						<li role="presentation" class="nav-item">
 							<button id="grid" class="btn btn-link nav-link active"
 								aria-controls="gridPanel" aria-selected="true"
-								type="button" onclick="switchTab('grid')">
+								type="button" onclick="appIns.switchTab('grid')">
 								<clr-icon shape="grid-view"></clr-icon> Grid</button>
 						</li>
 						<li role="presentation" class="nav-item">
 							<button id="barchart" class="btn btn-link nav-link"
 								aria-controls="barChartPanel" aria-selected="false"
-								type="button" onclick="switchTab('barchart')">
+								type="button" onclick="appIns.switchTab('barchart')">
 								<clr-icon shape="bar-chart"></clr-icon> Bar Chart</button>
 						</li>
 						<li role="presentation" class="nav-item">
 							<button id="linechart" class="btn btn-link nav-link"
 								aria-controls="lineChartPanel" aria-selected="false"
-								type="button" onclick="switchTab('linechart')">
+								type="button" onclick="appIns.switchTab('linechart')">
 								<clr-icon shape="line-chart"></clr-icon> Line Chart</button>
 						</li>
 						<li role="presentation" class="nav-item">
 							<button id="indiecharts" class="btn btn-link nav-link"
 								aria-controls="indieChartsPanel" aria-selected="false"
-								type="button" onclick="switchTab('indiecharts')">
+								type="button" onclick="appIns.switchTab('indiecharts')">
 								<clr-icon shape="view-columns"></clr-icon> Indie Charts</button>
 						</li>
 					</ul>

@@ -1,17 +1,19 @@
+
+const dataKey = 'hobbitData', timeStampKey = 'timestamp';
+
 const datagridCard = document.querySelector('#datagridCard');
 const barchartCanvas = document.querySelector('#barchartCanvas');
 const barchart2Canvas = document.querySelector('#barchart2Canvas');
 const toggleBtn = document.querySelector('#toggle1');
+
 const colors = [
-    '#0779e4', '#cff800', '#d8345f',
-    '#cca8e9', '#b0a160', '#40bfc1',
-    '#fa744f', '#5b8c85', '#95389e',
-    '#216353', '#f69d9d', '#f1c40f'
+    '#0779e4', '#cff800', '#d8345f', '#cca8e9', '#b0a160', '#40bfc1',
+    '#fa744f', '#5b8c85', '#95389e', '#216353', '#f69d9d', '#f1c40f'
 ];
 
-class app {
+class appUI {
 
-    app() {}
+    appUI() {}
 
     drawLineChart(data = {}) {
         const ctx = document.getElementById('linechartCanvas').getContext('2d');
@@ -434,12 +436,49 @@ class app {
         this.drawBarChart2(chartData);
         this.drawIndieCharts(chartData);
     }
+
+    showUpdateTimeStamp() {
+        const datetime = window.localStorage.getItem(timeStampKey);
+        const timeStr = new Intl.DateTimeFormat('default', {
+            hour: 'numeric', minute: 'numeric', second: 'numeric',
+            year: 'numeric', month: 'numeric', day: 'numeric'
+        }).format(datetime);
+        document.querySelector('#timestamp').innerHTML =  `Updated: ${timeStr}`;
+    }
 };
 
-const appIns = new app();
+const appIns = new appUI();
 
-fetch('/gsheets').then(response => {
-    return response.json();
-}).then(data => {
-    appIns.buildCharts(data);
-});
+function forceFetch() {
+    window.localStorage.clear();
+    window.location.reload();
+}
+
+function fetchDataFromGoogleSpreadSheet() {
+    fetch('/gsheets').then(response => {
+        return response.json();
+    }).then(data => {
+        window.localStorage.setItem(dataKey, JSON.stringify(data));
+        window.localStorage.setItem(timeStampKey, new Date().getTime());
+        appIns.buildCharts(data);
+        appIns.showUpdateTimeStamp();
+    }).catch(error => {
+        console.log('error => ');
+        console.log(error);
+    });
+}
+
+function initializeApp() {
+    if (typeof(Storage) !== undefined) {
+        let hobbitData = window.localStorage.getItem(dataKey);
+        if (!hobbitData) fetchDataFromGoogleSpreadSheet();
+        else {
+            appIns.buildCharts(JSON.parse(hobbitData))
+            appIns.showUpdateTimeStamp();
+        };
+    } else {
+        fetchDataFromGoogleSpreadSheet();
+    }
+}
+
+initializeApp();

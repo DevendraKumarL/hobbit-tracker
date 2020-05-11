@@ -13,7 +13,7 @@ span.title span {
 	display: inline;
 }
 
-#ichartTemplateCard, #datagridCard, #barchart2Canvas {
+#ichartTemplateCard, #datagridCard {
     display: none;
 }
 

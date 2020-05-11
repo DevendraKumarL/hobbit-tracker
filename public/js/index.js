@@ -469,6 +469,7 @@ function fetchDataFromGoogleSpreadSheet() {
 }
 
 function initializeApp() {
+    barchart2Canvas.style.display = 'none';
     if (typeof(Storage) !== undefined) {
         let hobbitData = window.localStorage.getItem(dataKey);
         if (!hobbitData) fetchDataFromGoogleSpreadSheet();

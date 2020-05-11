@@ -14,10 +14,10 @@ app.get('/', (request, response) => {
 	response.render('index');
 });
 
-const sheetId = '1mS2IErB6iTd7ZGCKKJHh-bEO0r9H3AaJpMnNcVYWkGE';
+const sheetID = '1mS2IErB6iTd7ZGCKKJHh-bEO0r9H3AaJpMnNcVYWkGE';
 const gsheetsReader = require('g-sheets-api');
 app.get('/gsheets', (request, response) => {
-	gsheetsReader({ sheetId: sheetId }, results => {
+	gsheetsReader({ sheetId: sheetID }, results => {
 		response.send(results)
 	}, error => {
 		console.log(error);

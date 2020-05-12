@@ -16,12 +16,12 @@ app.get('/', (request, response) => {
 
 const sheetID = '1mS2IErB6iTd7ZGCKKJHh-bEO0r9H3AaJpMnNcVYWkGE';
 const gsheetsReader = require('g-sheets-api');
-app.get('/gsheets', (request, response) => {
-	gsheetsReader({ sheetId: sheetID }, results => {
+app.get('/gsheets/:sheetNum', (request, response) => {
+	gsheetsReader({ sheetId: sheetID, sheetNumber: request.params.sheetNum }, results => {
 		response.send(results)
 	}, error => {
 		console.log(error);
-		response.send([]);
+		throw error;
 	});
 });
 

@@ -9,7 +9,7 @@ span.title span {
     color: #ff5722;
 }
 
-#toggle-container {
+#toggleContainer {
 	display: inline;
 }
 
@@ -19,4 +19,12 @@ span.title span {
 
 .clr-col-6 {
     display: inline-flex;
+}
+
+.select-month {
+    padding: 0.7rem;
+}
+
+.select-month .clr-select-wrapper {
+    padding-left: 1rem;
 }

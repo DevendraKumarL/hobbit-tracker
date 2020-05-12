@@ -1,10 +1,11 @@
 
-const dataKey = 'hobbitData', timeStampKey = 'timestamp';
+const dataKey = 'hobbitData', timeStampKey = 'timestamp', monthKey = 'month';
 
 const datagridCard = document.querySelector('#datagridCard');
 const barchartCanvas = document.querySelector('#barchartCanvas');
 const barchart2Canvas = document.querySelector('#barchart2Canvas');
 const toggleBtn = document.querySelector('#toggle1');
+const selectMonth = document.querySelector('#selectMonth');
 
 const colors = [
     '#0779e4', '#cff800', '#d8345f', '#cca8e9', '#b0a160', '#40bfc1',
@@ -252,7 +253,7 @@ class appUI {
         });
 
         const legendgrid = document.querySelector('#legendgrid');
-        legendgrid.innerHTML = "";
+        legendgrid.innerHTML = '';
         legendgrid.append(table);
     }
 
@@ -290,7 +291,7 @@ class appUI {
         });
 
         const mygrid = document.querySelector('#mygrid');
-        mygrid.innerHTML = "";
+        mygrid.innerHTML = '';
         mygrid.append(table);
 
         datagridCard.style.display = 'block';
@@ -300,6 +301,7 @@ class appUI {
 
     drawIndieCharts(data) {
         const ichartPanel = document.querySelector('#indieChartsPanel');
+        ichartPanel.innerHTML = '';
         data.hobits.forEach((hobitData, index) => {
             const ichartCard = document.querySelector('#ichartTemplateCard').cloneNode(true);
             ichartCard.removeAttribute('id');
@@ -379,9 +381,9 @@ class appUI {
 
     getScoreValue(figure) {
         switch(figure) {
-            case "✓":
+            case '✓':
                 return 1;
-            case "×":
+            case '×':
                 return -1;
             default:
                 return 0;
@@ -449,17 +451,22 @@ class appUI {
 
 const appIns = new appUI();
 
+function chooseMonth() {
+    fetchDataFromGoogleSpreadSheet(selectMonth.value);
+}
+
 function forceFetch() {
     window.localStorage.clear();
     window.location.reload();
 }
 
-function fetchDataFromGoogleSpreadSheet() {
-    fetch('/gsheets').then(response => {
+function fetchDataFromGoogleSpreadSheet(month = 1) {
+    fetch('/gsheets/' + month).then(response => {
         return response.json();
     }).then(data => {
         window.localStorage.setItem(dataKey, JSON.stringify(data));
         window.localStorage.setItem(timeStampKey, new Date().getTime());
+        window.localStorage.setItem(monthKey, month);
         appIns.buildCharts(data);
         appIns.showUpdateTimeStamp();
     }).catch(error => {
@@ -470,15 +477,24 @@ function fetchDataFromGoogleSpreadSheet() {
 
 function initializeApp() {
     barchart2Canvas.style.display = 'none';
+    const monthsArr = [1, 2];
+    monthsArr.forEach(m => {
+        const option = document.createElement('option');
+        option.setAttribute('value', m);
+        option.innerHTML = m;
+        selectMonth.appendChild(option);
+    });
     if (typeof(Storage) !== undefined) {
         let hobbitData = window.localStorage.getItem(dataKey);
         if (!hobbitData) fetchDataFromGoogleSpreadSheet();
         else {
+            console.log('loading from localStorage');
+            selectMonth.value = window.localStorage.getItem(monthKey);
             appIns.buildCharts(JSON.parse(hobbitData))
             appIns.showUpdateTimeStamp();
         };
     } else {
-        fetchDataFromGoogleSpreadSheet();
+        fetchDataFromGoogleSpreadSheet(1);
     }
 }
 

@@ -4,7 +4,8 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "dev": "nodemon server.js"
   },
   "author": "",
   "license": "ISC",
@@ -16,8 +17,9 @@
     "chartjs-plugin-datalabels": "^0.7.0",
     "ejs": "^3.1.2",
     "express": "^4.17.1",
-    "g-sheets-api": "^1.2.0",
-    "node-fetch": "^2.6.0"
+    "g-sheets-api": "^1.2.1",
+    "node-fetch": "^2.6.0",
+    "nodemon": "^2.0.3"
   },
   "devDependencies": {}
 }

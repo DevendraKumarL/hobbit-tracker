@@ -30,10 +30,10 @@
 				</a>
 			</div>
 			<div class="header-actions">
-				<div class="header-nav select-month">
+				<div class="header-nav select-month-section">
 					<label>Sheet</label>
 					<div class="clr-select-wrapper">
-						<select id="selectMonth" class="clr-select" onchange="chooseMonth()">
+						<select id="selectMonth" class="clr-select" onchange="appIns.chooseMonth()">
 						</select>
 					</div>
 				</div>
@@ -76,14 +76,13 @@
 									<div class="clr-form-control" id="toggleContainer">
 										<div class="clr-control-container">
 										<div class="clr-toggle-wrapper">
-											<input type="checkbox" id="toggle1" name="toggle-basic" value="option1" class="clr-toggle" onchange="appIns.toggleSwitchBarChart()">
-											<label for="toggle1">Detailed</label>
+											<input type="checkbox" id="toggleBarCharts" name="toggle-basic" value="option1" class="clr-toggle" onchange="appIns.toggleSwitchBarChart()">
+											<label for="toggleBarCharts">Detailed</label>
 										</div>
 										</div>
 									</div>
 								</div>
-								<div class="card-text">
-
+								<div class="card-text" id="barchartsContainer">
 								</div>
 							</div>
 						</div>
@@ -96,8 +95,7 @@
 								<div class="card-title">
 									⏀ Hobbit Data Line Chart ⏀
 								</div>
-								<div class="card-text">
-									<canvas id="linechartCanvas"></canvas>
+								<div class="card-text" id="lineChartContainer">
 								</div>
 							</div>
 						</div>

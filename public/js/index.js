@@ -2,10 +2,10 @@
 const dataKey = 'hobbitData', timeStampKey = 'timestamp', monthKey = 'month';
 
 const datagridCard = document.querySelector('#datagridCard');
-const barchartCanvas = document.querySelector('#barchartCanvas');
-const barchart2Canvas = document.querySelector('#barchart2Canvas');
-const toggleBtn = document.querySelector('#toggle1');
-const selectMonth = document.querySelector('#selectMonth');
+const barChartsContainer = document.querySelector('#barchartsContainer');
+const lineChartContainer = document.querySelector('#lineChartContainer');
+const toggleBarChartsBtn = document.querySelector('#toggleBarCharts');
+const selectMonthDropdown = document.querySelector('#selectMonth');
 
 const colors = [
     '#0779e4', '#cff800', '#d8345f', '#cca8e9', '#b0a160', '#40bfc1',
@@ -17,7 +17,6 @@ class appUI {
     appUI() {}
 
     drawLineChart(data = {}) {
-        const ctx = document.getElementById('linechartCanvas').getContext('2d');
         const datasets = [];
         data.hobits.forEach((hobitData, index) => {
             datasets.push({
@@ -29,7 +28,10 @@ class appUI {
                 lineTension: 0
             })
         });
-        new Chart(ctx, {
+        const lineCanvas = document.createElement('canvas');
+        lineCanvas.id = 'linechartCanvas';
+        lineChartContainer.appendChild(lineCanvas);
+        new Chart(lineCanvas.getContext('2d'), {
             type: 'line',
             data: {
                 labels: data.days,
@@ -75,7 +77,6 @@ class appUI {
     }
 
     drawBarChart2(data = {}) {
-        const ctx = document.getElementById('barchart2Canvas').getContext('2d');
         const datasets = [];
         data.hobits.forEach((hobitData, index) => {
             datasets.push({
@@ -87,7 +88,11 @@ class appUI {
                 minBarLength: 20
             })
         });
-        new Chart(ctx, {
+        const barCanvas2 = document.createElement('canvas');
+        barCanvas2.id = 'barchartCanvas2';
+        barChartsContainer.appendChild(barCanvas2);
+        barCanvas2.style.display = 'none';
+        new Chart(barCanvas2.getContext('2d'), {
             type: 'bar',
             data: {
                 labels: data.days,
@@ -134,8 +139,10 @@ class appUI {
     }
 
     drawBarChart(data = {}) {
-        const ctx = document.getElementById('barchartCanvas').getContext('2d');
-        new Chart(ctx, {
+        const barCanvas1 = document.createElement('canvas');
+        barCanvas1.id = 'barchartCanvas';
+        barChartsContainer.appendChild(barCanvas1);
+        new Chart(barCanvas1.getContext('2d'), {
             type: 'bar',
             data: {
                 labels: data.map(stat => stat.label + '(' + stat.performanceScore + ')'),
@@ -311,7 +318,7 @@ class appUI {
             ichartTitle.innerHTML = data.hobits[index].hobit;
 
             const canvasEle = document.createElement('canvas');
-            canvasEle.setAttribute('id', ('ichart' + index));
+            canvasEle.id = 'ichart' + index;
             canvasEle.setAttribute('height', 80);
 
             const ichartContainer = ichartCard.querySelector('#ichartContainer');
@@ -370,12 +377,12 @@ class appUI {
     }
 
     toggleSwitchBarChart() {
-        if (toggleBtn.checked === true) {
-            barchart2Canvas.style.display = 'block';
-            barchartCanvas.style.display = 'none';
+        if (toggleBarChartsBtn.checked === true) {
+            document.querySelector('#barchartCanvas2').style.display = 'block';
+            document.querySelector('#barchartCanvas').style.display = 'none';
         } else {
-            barchartCanvas.style.display = 'block';
-            barchart2Canvas.style.display = 'none';
+            document.querySelector('#barchartCanvas').style.display = 'block';
+            document.querySelector('#barchartCanvas2').style.display = 'none';
         }
     }
 
@@ -432,6 +439,7 @@ class appUI {
     }
 
     buildCharts(data) {
+        this.initializeUIElements();
         this.proccesGrid(data);
         const chartData = this.processLineChart(data);
         this.processBarChart(chartData);
@@ -447,13 +455,22 @@ class appUI {
         }).format(datetime);
         document.querySelector('#timestamp').innerHTML =  `Updated: ${timeStr}`;
     }
+
+    initializeUIElements() {
+        toggleBarChartsBtn.checked = false;
+        barChartsContainer.innerHTML = '';
+        lineChartContainer.innerHTML = '';
+        while (barChartsContainer.lastElementChild) {
+            barChartsContainer.removeChild(barChartsContainer.lastElementChild);
+        }
+    }
+
+    chooseMonth() {
+        fetchDataFromGoogleSpreadSheet(selectMonthDropdown.value);
+    }
 };
 
 const appIns = new appUI();
-
-function chooseMonth() {
-    fetchDataFromGoogleSpreadSheet(selectMonth.value);
-}
 
 function forceFetch() {
     window.localStorage.clear();
@@ -476,20 +493,19 @@ function fetchDataFromGoogleSpreadSheet(month = 1) {
 }
 
 function initializeApp() {
-    barchart2Canvas.style.display = 'none';
     const monthsArr = [1, 2];
     monthsArr.forEach(m => {
         const option = document.createElement('option');
         option.setAttribute('value', m);
         option.innerHTML = m;
-        selectMonth.appendChild(option);
+        selectMonthDropdown.appendChild(option);
     });
     if (typeof(Storage) !== undefined) {
         let hobbitData = window.localStorage.getItem(dataKey);
         if (!hobbitData) fetchDataFromGoogleSpreadSheet();
         else {
             console.log('loading from localStorage');
-            selectMonth.value = window.localStorage.getItem(monthKey);
+            selectMonthDropdown.value = window.localStorage.getItem(monthKey);
             appIns.buildCharts(JSON.parse(hobbitData))
             appIns.showUpdateTimeStamp();
         };

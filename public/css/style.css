@@ -21,10 +21,10 @@ span.title span {
     display: inline-flex;
 }
 
-.select-month {
+.select-month-section {
     padding: 0.7rem;
 }
 
-.select-month .clr-select-wrapper {
+.select-month-section .clr-select-wrapper {
     padding-left: 1rem;
 }

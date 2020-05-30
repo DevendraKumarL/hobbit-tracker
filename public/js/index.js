@@ -7,10 +7,7 @@ const lineChartContainer = document.querySelector('#lineChartContainer');
 const toggleBarChartsBtn = document.querySelector('#toggleBarCharts');
 const selectMonthDropdown = document.querySelector('#selectMonth');
 
-const colors = [
-    '#0779e4', '#cff800', '#d8345f', '#cca8e9', '#b0a160', '#40bfc1',
-    '#fa744f', '#5b8c85', '#95389e', '#216353', '#f69d9d', '#f1c40f'
-];
+const colors = [];
 
 class appUI {
 
@@ -439,6 +436,8 @@ class appUI {
     }
 
     buildCharts(data) {
+        for (let i = 0; i < data.length; ++i)
+            colors.push('#' + Math.floor(Math.random() * 16777215).toString(16));
         this.initializeUIElements();
         this.proccesGrid(data);
         const chartData = this.processLineChart(data);
@@ -474,6 +473,7 @@ const appIns = new appUI();
 
 function forceFetch() {
     window.localStorage.clear();
+    window.localStorage.setItem(monthKey, selectMonthDropdown.value);
     window.location.reload();
 }
 
@@ -502,7 +502,13 @@ function initializeApp() {
     });
     if (typeof(Storage) !== undefined) {
         let hobbitData = window.localStorage.getItem(dataKey);
-        if (!hobbitData) fetchDataFromGoogleSpreadSheet();
+        if (!hobbitData) {
+            let month = window.localStorage.getItem(monthKey);
+            fetchDataFromGoogleSpreadSheet(month ? month : 1);
+            if (month) {
+                selectMonthDropdown.value = month;
+            }
+        }
         else {
             console.log('loading from localStorage');
             selectMonthDropdown.value = window.localStorage.getItem(monthKey);
@@ -510,7 +516,7 @@ function initializeApp() {
             appIns.showUpdateTimeStamp();
         };
     } else {
-        fetchDataFromGoogleSpreadSheet(1);
+        fetchDataFromGoogleSpreadSheet();
     }
 }
 

@@ -19,6 +19,7 @@
 	<!-- load chart.js plugin datalabels plugin -->
 	<script src="chartjsplugin/chartjs-plugin-datalabels.min.js"></script>
 
+	<link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 	<div class="main-container">
@@ -52,10 +53,32 @@
 		</header>
 		<div class="content-container">
 			<div class="content-area">
+				<div>
+					<button id="grid" class="btn btn-link"
+						aria-controls="gridPanel" aria-selected="true"
+						type="button" onclick="appIns.switchTab('grid')">
+						<clr-icon shape="grid-view"></clr-icon> Grid
+					</button>
+					<button id="barchart" class="btn btn-link"
+						aria-controls="barChartPanel" aria-selected="false"
+						type="button" onclick="appIns.switchTab('barchart')">
+						<clr-icon shape="bar-chart"></clr-icon> Bar Chart
+					</button>
+					<button id="linechart" class="btn btn-link"
+						aria-controls="lineChartPanel" aria-selected="false"
+						type="button" onclick="appIns.switchTab('linechart')">
+						<clr-icon shape="line-chart"></clr-icon> Line Chart
+					</button>
+					<button id="indiecharts" class="btn btn-link"
+						aria-controls="indieChartsPanel" aria-selected="false"
+						type="button" onclick="appIns.switchTab('indiecharts')">
+						<clr-icon shape="view-columns"></clr-icon> Indie Charts
+					</button>
+				</div>
 				<section id="gridPanel" role="tabpanel" aria-labelledby="grid">
 					<div class="clr-col-12" id="datagridCard">
 						<div class="card">
-							<div class="card-block">
+							<div class="card-block overflow-scroll">
 								<div class="card-title">
 									⥈ Hobbit Datagrid ⥈
 								</div>
@@ -68,9 +91,9 @@
 					</div>
 				</section>
 				<section id="barChartPanel" role="tabpanel" aria-labelledby="barchart" aria-hidden="true">
-					<div class="clr-col-12">
+					<div class="clr-col-lg-12 clr-col-md-12 clr-col-sm-12">
 						<div class="card">
-							<div class="card-block">
+							<div class="card-block overflow-scroll">
 								<div class="card-title">
 									⥉ Hobbit Data Bar Chart ⥉ &nbsp;&nbsp;&nbsp;
 									<div class="clr-form-control" id="toggleContainer">
@@ -82,20 +105,20 @@
 										</div>
 									</div>
 								</div>
-								<div class="card-text" id="barchartsContainer">
+								<div class="card-text chart-responsive" id="barchartsContainer">
 								</div>
 							</div>
 						</div>
 					</div>
 				</section>
 				<section id="lineChartPanel" role="tabpanel" aria-labelledby="linechart" aria-hidden="true">
-					<div class="clr-col-12">
+					<div class="clr-col-lg-12 clr-col-md-12 clr-col-sm-12">
 						<div class="card">
-							<div class="card-block">
+							<div class="card-block overflow-scroll">
 								<div class="card-title">
 									⏀ Hobbit Data Line Chart ⏀
 								</div>
-								<div class="card-text" id="lineChartContainer">
+								<div class="card-text chart-responsive" id="lineChartContainer">
 								</div>
 							</div>
 						</div>
@@ -104,49 +127,25 @@
 				<section id="indieChartsPanel" role="tabpanel" aria-labelledby="indiecharts" aria-hidden="true">
 				</section>
 			</div>
-			<nav class="sidenav">
+			<!-- <nav class="sidenav">
 				<div class="tabs-vertical">
 					<ul class="nav" role="tablist" id="tabs">
-						<li role="presentation" class="nav-item">
-							<button id="grid" class="btn btn-link nav-link active"
-								aria-controls="gridPanel" aria-selected="true"
-								type="button" onclick="appIns.switchTab('grid')">
-								<clr-icon shape="grid-view"></clr-icon> Grid</button>
-						</li>
-						<li role="presentation" class="nav-item">
-							<button id="barchart" class="btn btn-link nav-link"
-								aria-controls="barChartPanel" aria-selected="false"
-								type="button" onclick="appIns.switchTab('barchart')">
-								<clr-icon shape="bar-chart"></clr-icon> Bar Chart</button>
-						</li>
-						<li role="presentation" class="nav-item">
-							<button id="linechart" class="btn btn-link nav-link"
-								aria-controls="lineChartPanel" aria-selected="false"
-								type="button" onclick="appIns.switchTab('linechart')">
-								<clr-icon shape="line-chart"></clr-icon> Line Chart</button>
-						</li>
-						<li role="presentation" class="nav-item">
-							<button id="indiecharts" class="btn btn-link nav-link"
-								aria-controls="indieChartsPanel" aria-selected="false"
-								type="button" onclick="appIns.switchTab('indiecharts')">
-								<clr-icon shape="view-columns"></clr-icon> Indie Charts</button>
-						</li>
+
 					</ul>
 				</div>
-			</nav>
+			</nav> -->
 		</div>
 	</div>
 </body>
-<div class="clr-col-6" id="ichartTemplateCard">
+<div id="ichartTemplateCard">
 	<div class="card">
-		<div class="card-block">
+		<div class="card-block overflow-scroll">
 			<div class="card-title" id="ichartTitle">
 			</div>
-			<div class="card-text" id="ichartContainer">
+			<div class="card-text chart-responsive-indie" id="ichartContainer">
 			</div>
 		</div>
 	</div>
 </div>
 <script type="text/javascript" src="js/index.js"></script>
-<link rel="stylesheet" href="css/style.css">
 </html>

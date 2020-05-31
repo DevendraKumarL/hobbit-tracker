@@ -396,13 +396,13 @@ class appUI {
 
     hideTabs() {
         document.querySelector('#gridPanel').setAttribute('aria-hidden', 'true');
-        document.querySelector('#grid').setAttribute('class', 'btn btn-link nav-link');
+        document.querySelector('#grid').setAttribute('class', 'btn btn-link');
         document.querySelector('#lineChartPanel').setAttribute('aria-hidden', 'true');
-        document.querySelector('#linechart').setAttribute('class', 'btn btn-link nav-link');
+        document.querySelector('#linechart').setAttribute('class', 'btn btn-link');
         document.querySelector('#barChartPanel').setAttribute('aria-hidden', 'true');
-        document.querySelector('#barchart').setAttribute('class', 'btn btn-link nav-link');
+        document.querySelector('#barchart').setAttribute('class', 'btn btn-link');
         document.querySelector('#indieChartsPanel').setAttribute('aria-hidden', 'true');
-        document.querySelector('#indiecharts').setAttribute('class', 'btn btn-link nav-link');
+        document.querySelector('#indiecharts').setAttribute('class', 'btn btn-link');
     }
 
     switchTab(tab) {
@@ -412,25 +412,25 @@ class appUI {
                 document.querySelector('#gridPanel')
                     .removeAttribute('aria-hidden');
                 document.querySelector('#grid')
-                    .setAttribute('class', 'btn btn-link nav-link active');
+                    .setAttribute('class', 'btn btn-link active');
                 break;
             case 'linechart':
                 document.querySelector('#lineChartPanel')
                     .removeAttribute('aria-hidden');
                 document.querySelector('#linechart')
-                    .setAttribute('class', 'btn btn-link nav-link active');
+                    .setAttribute('class', 'btn btn-link active');
                 break;
             case 'barchart':
                 document.querySelector('#barChartPanel')
                     .removeAttribute('aria-hidden');
                 document.querySelector('#barchart')
-                    .setAttribute('class', 'btn btn-link nav-link active');
+                    .setAttribute('class', 'btn btn-link active');
                 break;
             case 'indiecharts':
                 document.querySelector('#indieChartsPanel')
                     .removeAttribute('aria-hidden');
                 document.querySelector('#indiecharts')
-                    .setAttribute('class', 'btn btn-link nav-link active');
+                    .setAttribute('class', 'btn btn-link active');
                 break;
         }
     }

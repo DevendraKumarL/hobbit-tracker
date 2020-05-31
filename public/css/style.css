@@ -28,3 +28,19 @@ span.title span {
 .select-month-section .clr-select-wrapper {
     padding-left: 1rem;
 }
+
+.chart-responsive {
+    position: relative;
+    width: 100vh;
+    height: 60vh;
+}
+
+.overflow-scroll {
+    overflow: scroll;
+}
+
+.chart-responsive-indie {
+    position: relative;
+    width: 70vh;
+    height: 20vh;
+}

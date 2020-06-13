@@ -31,8 +31,8 @@ span.title span {
 
 .chart-responsive {
     position: relative;
-    width: 100vh;
-    height: 60vh;
+    min-width: 150vh;
+    min-height: 50vh;
 }
 
 .overflow-scroll {
@@ -41,6 +41,10 @@ span.title span {
 
 .chart-responsive-indie {
     position: relative;
-    width: 70vh;
-    height: 20vh;
+    min-width: 100vh;
+    min-height: 25vh;
+}
+
+#selectMonth {
+    color: white;
 }

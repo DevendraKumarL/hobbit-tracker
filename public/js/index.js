@@ -1,4 +1,3 @@
-
 const dataKey = 'hobbitData', timeStampKey = 'timestamp', monthKey = 'month';
 
 const datagridCard = document.querySelector('#datagridCard');
@@ -46,7 +45,7 @@ class appUI {
                     labels: {
                         usePointStyle: true,
                         padding: 20,
-                        fontColor: '#ffffff'
+                        fontColor: '#000000'
                     }
                 },
                 tooltips: {
@@ -101,7 +100,7 @@ class appUI {
                     position: 'bottom',
                     labels: {
                         usePointStyle: true,
-                        fontColor: '#ffffff'
+                        fontColor: '#000000'
                     }
                 },
                 tooltips: {
@@ -156,7 +155,7 @@ class appUI {
                     position: 'bottom',
                     labels: {
                         usePointStyle: true,
-                        fontColor: '#ffffff'
+                        fontColor: '#000000'
                     }
                 },
                 tooltips: {
@@ -345,7 +344,7 @@ class appUI {
                         labels: {
                             usePointStyle: true,
                             padding: 20,
-                            fontColor: '#ffffff'
+                            fontColor: '#000000'
                         }
                     },
                     tooltips: {
@@ -492,14 +491,23 @@ function fetchDataFromGoogleSpreadSheet(month = 1) {
     });
 }
 
-function initializeApp() {
-    const monthsArr = [1, 2];
-    monthsArr.forEach(m => {
-        const option = document.createElement('option');
-        option.setAttribute('value', m);
-        option.innerHTML = m;
-        selectMonthDropdown.appendChild(option);
+function getNoOfSheets() {
+    fetch('/noofsheets').then(response => {
+        return response.json();
+    }).then(sheets => {
+        const monthsArr = Array(Number(sheets.noOfSheets)).fill(0);
+        console.lof
+        monthsArr.forEach((m, index) => {
+            const option = document.createElement('option');
+            option.setAttribute('value', index+1);
+            option.innerHTML = index+1;
+            selectMonthDropdown.appendChild(option);
+        });
     });
+}
+
+function initializeApp() {
+    getNoOfSheets();
     if (typeof(Storage) !== undefined) {
         let hobbitData = window.localStorage.getItem(dataKey);
         if (!hobbitData) {

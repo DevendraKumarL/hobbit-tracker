@@ -1,5 +1,6 @@
 const express = require('express');
 const app = express();
+require('dotenv').config();
 
 app.use(express.static(__dirname + '/public'));
 app.use('/clrui', express.static(__dirname + '/node_modules/@clr/ui'));
@@ -14,15 +15,19 @@ app.get('/', (request, response) => {
 	response.render('index');
 });
 
-const sheetID = '1mS2IErB6iTd7ZGCKKJHh-bEO0r9H3AaJpMnNcVYWkGE';
+const sheetID = process.env.SHEET_ID;
 const gsheetsReader = require('g-sheets-api');
 app.get('/gsheets/:sheetNum', (request, response) => {
 	gsheetsReader({ sheetId: sheetID, sheetNumber: request.params.sheetNum }, results => {
-		response.send(results)
+		response.send(results);
 	}, error => {
 		console.log(error);
 		throw error;
 	});
+});
+
+app.get('/noofsheets', (request, response) => {
+	response.send({noOfSheets: process.env.NO_OF_SHEETS});
 });
 
 app.listen(4000, () => {

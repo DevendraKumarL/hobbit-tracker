@@ -20,6 +20,7 @@ class appUI {
                 data: hobitData.points,
                 borderColor: colors[index],
                 backgroundColor: Array(hobitData.points.length).fill('rgba(0, 0, 0, 0)'),
+                fill: false,
                 borderWidth: 2,
                 lineTension: 0
             })
@@ -145,6 +146,7 @@ class appUI {
                 datasets: [{
                     label: 'Hobit Performance',
                     data: data.map(stat => stat.performanceScore),
+                    backgroundColor: Array(data.length).fill('rgba(0, 0, 0, 0)'),
                     borderColor: colors,
                     borderWidth: 2
                 }]
@@ -333,6 +335,7 @@ class appUI {
                         data: data.hobits[index].points,
                         borderColor: colors[index],
                         backgroundColor: Array(data.hobits[index].points.length).fill('rgba(0, 0, 0, 0)'),
+                        fill: false,
                         borderWidth: 2,
                         lineTension: 0
                     }]

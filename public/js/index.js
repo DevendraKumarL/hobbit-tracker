@@ -495,7 +495,7 @@ function fetchDataFromGoogleSpreadSheet(month = 1) {
 }
 
 function getNoOfSheets() {
-    fetch('/noofsheets').then(response => {
+    return fetch('/noofsheets').then(response => {
         return response.json();
     }).then(sheets => {
         const monthsArr = Array(Number(sheets.noOfSheets)).fill(0);
@@ -506,29 +506,31 @@ function getNoOfSheets() {
             option.innerHTML = index+1;
             selectMonthDropdown.appendChild(option);
         });
+        return;
     });
 }
 
 function initializeApp() {
-    getNoOfSheets();
-    if (typeof(Storage) !== undefined) {
-        let hobbitData = window.localStorage.getItem(dataKey);
-        if (!hobbitData) {
-            let month = window.localStorage.getItem(monthKey);
-            fetchDataFromGoogleSpreadSheet(month ? month : 1);
-            if (month) {
-                selectMonthDropdown.value = month;
+    getNoOfSheets().then(() => {
+        if (typeof(Storage) !== undefined) {
+            let hobbitData = window.localStorage.getItem(dataKey);
+            if (!hobbitData) {
+                let month = window.localStorage.getItem(monthKey);
+                fetchDataFromGoogleSpreadSheet(month ? month : 1);
+                if (month) {
+                    selectMonthDropdown.value = month;
+                }
             }
-        }
-        else {
-            console.log('loading from localStorage');
-            selectMonthDropdown.value = window.localStorage.getItem(monthKey);
-            appIns.buildCharts(JSON.parse(hobbitData))
-            appIns.showUpdateTimeStamp();
-        };
-    } else {
-        fetchDataFromGoogleSpreadSheet();
-    }
+            else {
+                console.log('loading from localStorage');
+                selectMonthDropdown.value = window.localStorage.getItem(monthKey);
+                appIns.buildCharts(JSON.parse(hobbitData))
+                appIns.showUpdateTimeStamp();
+            };
+        } else {
+            fetchDataFromGoogleSpreadSheet();
+        } 
+    });
 }
 
 initializeApp();
